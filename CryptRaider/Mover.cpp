@@ -40,6 +40,5 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 	FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, speed);
 	FString NewLocationString = NewLocation.ToCompactString();
 	GetOwner()->SetActorLocation(NewLocation);
-	UE_LOG(LogTemp, Warning, TEXT("error: %s"), *NewLocationString);
 }
 
