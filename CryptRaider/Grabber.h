@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 
 #include "Grabber.generated.h"
 
@@ -19,6 +20,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Grab();
+	UPhysicsHandleComponent* GetPhysicsHandle() const;
 
 protected:
 	// Called when the game starts
@@ -32,4 +34,6 @@ public:
 	float MaxGrapDistance = 400;
 	UPROPERTY(EditAnywhere)
 	float GrabRadius = 100;
+	UPROPERTY(EditAnywhere)
+	float GrabDistance = 200;
 };
