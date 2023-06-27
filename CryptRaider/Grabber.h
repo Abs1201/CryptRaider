@@ -20,6 +20,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Grab();
+	UFUNCTION(BlueprintCallable)
+	void Release();
+	
+
 	UPhysicsHandleComponent* GetPhysicsHandle() const;
 
 protected:

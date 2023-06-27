@@ -62,9 +62,12 @@ void UGrabber::Grab()
 		Start, End,
 		FQuat::Identity, ECC_GameTraceChannel2,
 		Sphere);
+	
 	if(HasHit){
+		UPrimitiveComponent* HitComponent = HitResult.GetComponent();
+		HitComponent->WakeAllRigidBodies();
 		PhysicsHandle->GrabComponentAtLocationWithRotation(
-			HitResult.GetComponent(),
+			HitComponent,
 			NAME_None,
 			HitResult.ImpactPoint,
 			GetComponentRotation()
@@ -72,6 +75,15 @@ void UGrabber::Grab()
 		DrawDebugSphere(GetWorld(), End, 10,10,FColor::Cyan, false, 5);
 		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10, 10, FColor::Red, false, 5);
 	}
+}
+
+void UGrabber::Release()
+{
+	UPhysicsHandleComponent* PhysicsHandle = GetPhysicsHandle();
+	if(PhysicsHandle == nullptr){ return; }
+	UPrimitiveComponent* GrabbedComponent = PhysicsHandle->GetGrabbedComponent();
+	if(GrabbedComponent == nullptr){return;}
+	PhysicsHandle->ReleaseComponent();
 }
 
 UPhysicsHandleComponent *UGrabber::GetPhysicsHandle() const
