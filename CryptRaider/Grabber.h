@@ -22,10 +22,10 @@ public:
 	void Grab();
 	UFUNCTION(BlueprintCallable)
 	void Release();
-	
+
 
 	UPhysicsHandleComponent* GetPhysicsHandle() const;
-
+	bool GetGrabbableInReach(FHitResult& HitResult) const;
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
