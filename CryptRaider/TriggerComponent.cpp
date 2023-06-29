@@ -6,6 +6,8 @@
 UTriggerComponent::UTriggerComponent()
 {
     PrimaryComponentTick.bCanEverTick = true;
+    
+    AcceptableActorTag = "Unlock1";
 }
 
 void UTriggerComponent::BeginPlay()
@@ -20,10 +22,10 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
     TArray<AActor*> Actors;
     GetOverlappingActors(Actors);
 
-    UE_LOG(LogTemp, Warning, TEXT("overlapping actor num: %d"), Actors.Num());
     for(AActor* Actor: Actors){
-        FString ActorName = Actor->GetActorNameOrLabel();
-        UE_LOG(LogTemp, Display, TEXT("Overlapping: %s"), *ActorName);
+        if(Actor->ActorHasTag("Unlock1")){
+            UE_LOG(LogTemp, Display, TEXT("open!"));
+        }
     }
 
 }
