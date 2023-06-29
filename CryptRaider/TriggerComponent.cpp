@@ -19,14 +19,25 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
     
+    AActor* AcceptableActor = GetAcceptableActor();
+    if(AcceptableActor){
+        UE_LOG(LogTemp, Warning, TEXT("open with %s"), *(AcceptableActor->GetActorNameOrLabel()));
+    }
+    else{
+        UE_LOG(LogTemp, Display, TEXT("Relocking"));
+    }
+
+}
+
+AActor* UTriggerComponent::GetAcceptableActor() const{
     TArray<AActor*> Actors;
     GetOverlappingActors(Actors);
 
     for(AActor* Actor: Actors){
-        if(Actor->ActorHasTag("Unlock1")){
-            UE_LOG(LogTemp, Display, TEXT("open!"));
+        if(Actor->ActorHasTag(AcceptableActorTag)){
+            return Actor;
         }
     }
-
+    return nullptr;
 }
   
