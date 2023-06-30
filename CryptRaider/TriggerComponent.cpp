@@ -2,6 +2,8 @@
 
 
 #include "TriggerComponent.h"
+#include "GameFramework/Actor.h"
+#include "Components/PrimitiveComponent.h"
 
 UTriggerComponent::UTriggerComponent()
 {
@@ -19,17 +21,17 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
     
-    AActor* AcceptableActor = GetAcceptableActor();
-    if(AcceptableActor){
-        UE_LOG(LogTemp, Warning, TEXT("open with %s"), *(AcceptableActor->GetActorNameOrLabel()));
-        if(Mover){
-            Mover->SetShouldMove(true);
+    AActor* Actor = GetAcceptableActor();
+    if(Actor){
+        UPrimitiveComponent* Component = Cast<UPrimitiveComponent>(Actor->GetRootComponent());
+        if(Component != nullptr){
+            Component->SetSimulatePhysics(false);
         }
+        Actor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
+        Mover->SetShouldMove(true);
     }
     else{
-        if(Mover){
-            Mover->SetShouldMove(false);
-        }
+        Mover->SetShouldMove(false);
     }
 
 }
