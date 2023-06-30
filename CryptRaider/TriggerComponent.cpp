@@ -22,11 +22,21 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
     AActor* AcceptableActor = GetAcceptableActor();
     if(AcceptableActor){
         UE_LOG(LogTemp, Warning, TEXT("open with %s"), *(AcceptableActor->GetActorNameOrLabel()));
+        if(Mover){
+            Mover->SetShouldMove(true);
+        }
     }
     else{
-        UE_LOG(LogTemp, Display, TEXT("Relocking"));
+        if(Mover){
+            Mover->SetShouldMove(false);
+        }
     }
 
+}
+
+void UTriggerComponent::SetMover(UMover* NewMover)
+{
+    Mover = NewMover;
 }
 
 AActor* UTriggerComponent::GetAcceptableActor() const{

@@ -21,6 +21,7 @@ void UMover::BeginPlay()
 	Super::BeginPlay();
 	// ...
 	OriginalLocation = GetOwner()->GetActorLocation();
+	MoveOffset = FVector(0,0,-600);
 	
 }
 
@@ -42,7 +43,7 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 	
 }
 
-void UMover::SetShouldMove(){
-	ShouldMove = true;
+void UMover::SetShouldMove(bool NewShouldMove){
+	ShouldMove = NewShouldMove;
 }
 
