@@ -8,8 +8,6 @@
 UTriggerComponent::UTriggerComponent()
 {
     PrimaryComponentTick.bCanEverTick = true;
-    
-    AcceptableActorTag = "Unlock1";
 }
 
 void UTriggerComponent::BeginPlay()
@@ -20,7 +18,10 @@ void UTriggerComponent::BeginPlay()
 void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-    
+    if(Mover == nullptr){
+        UE_LOG(LogTemp, Warning, TEXT("no mover interlocked"));
+        return;
+    }
     AActor* Actor = GetAcceptableActor();
     if(Actor){
         UPrimitiveComponent* Component = Cast<UPrimitiveComponent>(Actor->GetRootComponent());
@@ -46,7 +47,9 @@ AActor* UTriggerComponent::GetAcceptableActor() const{
     GetOverlappingActors(Actors);
 
     for(AActor* Actor: Actors){
-        if(Actor->ActorHasTag(AcceptableActorTag)){
+        bool HasAcceptableTag = Actor->ActorHasTag(AcceptableActorTag);
+        bool IsGrabbed = Actor->ActorHasTag("Grabbed");
+        if(HasAcceptableTag && !IsGrabbed){
             return Actor;
         }
     }
